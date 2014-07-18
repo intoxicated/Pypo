@@ -4,7 +4,8 @@
 
 import sys, os
 import exifread as er
-
+import shutil
+from core.photo_exception import *
 
 class PypoUtil:
     def __init__(self):
@@ -29,11 +30,11 @@ class PypoUtil:
             raise NotFoundException("Path '%s' not found" % path, e, path)
 
     @classmethod
-    def getfFiles(self, dirname):
+    def getFiles(self, dirname):
         try:
             filelst = os.listdir(dirname)
         except Exception as e:
-            raise NotFoundException("Directory %s is not found"\
+            raise NotFoundException("Directory '%s' is not found"\
                     % dirname, e, dirname)
         return filelst
 
@@ -48,10 +49,23 @@ class PypoUtil:
 
     @classmethod
     def moveFilesTo(self, destination, filelst):
-        pass
+        #if destination is not absolute, change it
+        dest = ''
+        if '/' not in destination:
+            dest = os.path.abspath(destination)
+        if not os.path.exists(destination):
+            raise NotFoundExpcetion("Destination '%s' not exist" % dest,\
+                    Exception, "Move file to")
+
+        for each in filelst:
+            try:
+                shutil.move(each, destination)
+            except IOError as e:
+                raise OperationAbortException("No such file %s" % each,\
+                        e, "Move file to loop")
+            
 
     @classmethod
     def getMetaInfo(self, filename):
         pass
 
-      
