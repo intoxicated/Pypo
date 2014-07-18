@@ -10,7 +10,7 @@ Error = {
 class PypoException(Exception):
     """ base class """
     def __init__(self, msg, error):
-        Exception.__init__(self, message)
+        Exception.__init__(self, msg)
         self.error = error
 
 class SizeException(PypoException):
