@@ -17,14 +17,13 @@ class SizeException(PypoException):
     def __init__(self, msg, error):
         PypoException.__init__(self, msg, error)
 
-class NotExistException(PypoException):
+class NotFoundException(PypoException):
     def __init__(self, msg, error, path):
         PypoException.__init__(self, msg, error)
         self.path = path
 
-class OperationAbordException(PypoException):
-    def __init__(self, msg, error, cp, rp):
+class OperationAbortException(PypoException):
+    def __init__(self, msg, error, operation):
         PypoException.__init__(self, msg, error)
-        self.cp = cp
-        self.rp = rp
+        self.operation = operation
 
