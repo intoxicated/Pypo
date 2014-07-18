@@ -8,11 +8,15 @@ import shutil
 from core.photo_exception import *
 
 class PypoUtil:
-    def __init__(self):
-        pass
+    """ collection of useful methods in order to 
+        organize photos
+    """
 
     @classmethod
     def getPath(self, filename):
+        """
+
+        """
         path = ''
         try:
             os.path.dirname(filename)
@@ -24,6 +28,9 @@ class PypoUtil:
              
     @classmethod
     def changeWorkingDirectory(self, path):
+        """
+
+        """
         try:
             os.chdir(path)
         except Exception as e:
@@ -31,6 +38,9 @@ class PypoUtil:
 
     @classmethod
     def getFiles(self, dirname):
+        """
+
+        """
         try:
             filelst = os.listdir(dirname)
         except Exception as e:
@@ -40,6 +50,9 @@ class PypoUtil:
 
     @classmethod
     def createDirectory(self, name, dirname):
+        """
+
+        """
         wd = os.getcwd()
         dpath = os.path.dirname(wd+dirname)
         if os.path.exists(dpath):
@@ -49,6 +62,9 @@ class PypoUtil:
 
     @classmethod
     def moveFilesTo(self, destination, filelst):
+        """
+
+        """
         #if destination is not absolute, change it
         dest = ''
         if '/' not in destination:
@@ -67,5 +83,8 @@ class PypoUtil:
 
     @classmethod
     def getMetaInfo(self, filename):
+        """
+
+        """
         pass
 
