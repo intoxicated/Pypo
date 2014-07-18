@@ -18,7 +18,7 @@ def PypoByDate(src, dest, *objects):
 def PypoByLocation(src, dest, *objects):
     """ sort given list of photo objects
         by approximate location (city/country)
-        using google geocoding api 
+        using geopy 
     """
 
     pass

@@ -3,8 +3,10 @@
 """
 
 import sys, os
-import exifread as er
 import shutil
+import exifread as er
+import geopy as geo
+
 from core.photo_exception import *
 
 class PypoUtil:
@@ -15,11 +17,16 @@ class PypoUtil:
     @classmethod
     def getPath(self, filename):
         """
+            Get path of given file
+            Working directory should be the directory that 
+            contains file
 
+            @param file name 
+            @return full absolute path of the file
         """
         path = ''
         try:
-            os.path.dirname(filename)
+            os.path.abspath(filename)
         except Exception as e:
             raise NotFoundException("File '%s' not found" % filename,\
                     e, path)
@@ -29,7 +36,9 @@ class PypoUtil:
     @classmethod
     def changeWorkingDirectory(self, path):
         """
-
+            Change working directory to given path 
+            
+            @param path of a directory
         """
         try:
             os.chdir(path)
@@ -39,7 +48,10 @@ class PypoUtil:
     @classmethod
     def getFiles(self, dirname):
         """
+            Get list of files in a directory
 
+            @param path of a directory
+            @return list of files in the directory
         """
         try:
             filelst = os.listdir(dirname)
@@ -49,26 +61,33 @@ class PypoUtil:
         return filelst
 
     @classmethod
-    def createDirectory(self, name, dirname):
+    def createDirectory(self, destpath, dirname):
         """
+            Create a directory at a given path
+
+            @param destpath desire path that directory to be created
+            @param dirname directory name 
 
         """
-        wd = os.getcwd()
-        dpath = os.path.dirname(wd+dirname)
+        dpath = os.path.dirname(destpath+dirname)
         if os.path.exists(dpath):
             raise OperationAboatException("Directory exists", Exception,\
                     "Create Directory")
         #create directory
-
+        os.mkdir(dpath)
+        
     @classmethod
     def moveFilesTo(self, destination, filelst):
-        """
+        """ 
+            Move list of file to a destination. If duplicate name
+            exists in the destination, it will be replaced based on
+            permission
+
+            @param destination path to a location
+            @param filelst list of file paths
 
         """
         #if destination is not absolute, change it
-        dest = ''
-        if '/' not in destination:
-            dest = os.path.abspath(destination)
         if not os.path.exists(destination):
             raise NotFoundExpcetion("Destination '%s' not exist" % dest,\
                     Exception, "Move file to")
@@ -80,11 +99,24 @@ class PypoUtil:
                 raise OperationAbortException("No such file %s" % each,\
                         e, "Move file to loop")
             
-
     @classmethod
     def getMetaInfo(self, filename):
         """
+            Get metadata of a file (assume its photo file)
 
+            @param filename path of a file 
+            @return dictionary contains all metadata
         """
         pass
 
+
+    @classmethod
+    def getCityBy(self, longitude="", latitude=""):
+        """
+            Given a longitude and latitude, return 
+            a city name 
+
+            @param longitude,latitude floating number
+            @return city name if they are valid
+        """
+        return ""
