@@ -103,11 +103,46 @@ class PypoUtil:
     def getMetaInfo(self, filename):
         """
             Get metadata of a file (assume its photo file)
+            by using exifread module
 
             @param filename path of a file 
-            @return dictionary contains all metadata
+            @return photo object contains useful information 
         """
-        pass
+        #'Image Model'
+        #'Image Orientation'
+        #'GPS GPSLatitude'
+        #'GPS GPSLongitude'
+        #'Image DateTime'
+        
+        #check if file is exist, otherwise raise exception
+
+        #open file 
+        fd = open(filename, 'rb')
+        tags = exifread.process_file(fd)
+
+        #get file size
+        fsize = os.stat(filename).st_size * 10 ** -6
+
+        #get taken date
+        pdate = tags['Image DateTime']
+        pdevice = tags['Image Model']
+        
+        #default location value
+        lng = None, lat = None
+
+        #curret directory location
+        ploc = os.path.dirname(filename)
+        
+        #check if location information is available
+        if 'GPS GPSLatitude' is in tags.keys():
+            lng = tags['GPS GPSLongitude']
+            lat = tags['GPS GPSLatitude']
+
+        #properly close file
+        fd.close()
+
+        return Photo(size=fsize, taken_date=pdate, taken_device=pdevice,
+                location=(lng, lat), dirloc=ploc)
 
 
     @classmethod

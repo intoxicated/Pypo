@@ -13,9 +13,8 @@ class Photo(object):
         self._dimension = kwargs['dimension']
         self._taken_date = kwargs['taken_date']
         self._taken_device = kwargs['taken_device']
-        self._quality = kwargs['quality']
         self._location = kwargs['location']
-        self._dirloc = ''
+        self._dirloc = kwargs['dirloc']
 
     @property
     def location(self):
@@ -56,13 +55,4 @@ class Photo(object):
     @taken_date.setter
     def taken_date(self, date):
         self.taken_date = date
-
-    @property
-    def quality(self):
-        return self._quality
-
-    @quality.setter
-    def quality(self, qual):
-        self._quality = qual
-
 
